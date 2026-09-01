@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BharatTranslate AI - Indian Language Neural Translator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header Banner -->
+        <header class="app-header">
+            <div class="logo-title">
+                <span class="chakra-icon">⚙</span>
+                <h1>BharatTranslate <span class="ai-badge">AI</span></h1>
+            </div>
+            <p class="subtitle">Deep Learning Neural Machine Translation for Indian Languages</p>
+        </header>
+
+        <!-- Main Translator Card -->
+        <main class="translator-card">
+            <!-- Language Controls Toolbar -->
+            <div class="toolbar">
+                <div class="lang-select-group">
+                    <label for="srcLangSelect">Source Language</label>
+                    <select id="srcLangSelect" class="lang-select">
+                        <option value="auto" selected>✨ Auto Detect</option>
+                        {% for code, name in languages.items() %}
+                        <option value="{{ code }}">{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Swap Languages Button -->
+                <button id="swapLangsBtn" class="btn-icon" title="Swap Languages" aria-label="Swap Languages">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16"/>
+                    </svg>
+                </button>
+
+                <div class="lang-select-group">
+                    <label for="tgtLangSelect">Target Language</label>
+                    <select id="tgtLangSelect" class="lang-select">
+                        {% for code, name in languages.items() %}
+                        <option value="{{ code }}" {% if code == 'hi' %}selected{% endif %}>{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <!-- Translation Input & Output Grid -->
+            <div class="translation-grid">
+                <!-- Source Input Panel -->
+                <div class="panel input-panel">
+                    <div class="panel-header">
+                        <span id="detectedBadge" class="detected-badge hidden">Detected: <strong id="detectedLangName">--</strong></span>
+                        <span class="char-counter"><span id="charCount">0</span> / 2000</span>
+                    </div>
+                    <textarea 
+                        id="srcTextInput" 
+                        class="text-area" 
+                        placeholder="Enter text to translate here... (Ctrl+Enter to translate)"
+                        maxlength="2000"
+                        rows="7"
+                    ></textarea>
+                    <div class="panel-footer">
+                        <button id="clearBtn" class="btn btn-secondary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 6L5 20M5 6L19 20"/>
+                            </svg>
+                            Clear
+                        </button>
+                        <button id="translateBtn" class="btn btn-primary">
+                            <span id="btnText">Translate</span>
+                            <span id="btnSpinner" class="spinner hidden"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Target Output Panel -->
+                <div class="panel output-panel">
+                    <div class="panel-header">
+                        <span class="output-label">Translation Result</span>
+                    </div>
+                    <div id="tgtTextOutput" class="text-area output-box" placeholder="Translation will appear here..."></div>
+                    <div class="panel-footer right-align">
+                        <button id="copyBtn" class="btn btn-secondary" title="Copy Translation">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            <span id="copyBtnText">Copy</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error Banner -->
+            <div id="errorBanner" class="error-banner hidden">
+                <span id="errorMessage">An error occurred during translation.</span>
+                <button id="closeErrorBtn" class="close-btn">&times;</button>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>Powered by PyTorch, Hugging Face Transformers (M2M100 Model) & Flask</p>
+        </footer>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden">Copied to clipboard!</div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
