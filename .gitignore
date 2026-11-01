@@ -46,3 +46,6 @@ huggingface/
 .idea/
 .DS_Store
 Thumbs.db
+*.exe
+*.dll
+
